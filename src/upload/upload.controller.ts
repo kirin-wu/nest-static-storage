@@ -4,6 +4,7 @@ import {
   Post,
   UploadedFile,
   UseInterceptors,
+  Param,
 } from '@nestjs/common';
 import { UploadService } from './upload.service';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -11,9 +12,9 @@ import { FileInterceptor } from '@nestjs/platform-express';
 @Controller('upload')
 export class UploadController {
   constructor(private readonly appService: UploadService) {}
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return `This action returns a #${id} cat`;
   }
 
   @Post()
@@ -21,9 +22,10 @@ export class UploadController {
   uploadFile(@UploadedFile() file: Express.Multer.File) {
     const result = this.appService.saveFile(file);
     return {
-      originalname: file.originalname,
-      filename: file.filename,
-      message: result,
+      code: 200,
+      filename: file.originalname,
+      fileid: result,
+      message: '上传成功',
     };
   }
 }

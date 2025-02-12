@@ -25,6 +25,6 @@ export class UploadService {
     }
     fs.writeFileSync(filePath, file.buffer);
 
-    return filePath;
+    return filename;
   }
 }
